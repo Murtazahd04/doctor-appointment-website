@@ -15,6 +15,8 @@ app.use(express.json())
 app.use(cors)
 
 // api endpoint
+app.use('/api/admin',adminRouter)
+// localhost:4000/apiadmin/paid-doctor
 
 app.get('/',(req,res)=>{
     res.send('API WORKING')
