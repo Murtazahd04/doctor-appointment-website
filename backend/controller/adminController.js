@@ -6,7 +6,7 @@ const addDoctor=async()=>{
         const {name,email,password,speciality,degree,experience,about,fees,address}=req.body
         const imageFile=req.file
 
-        if(!name||!email||!password||!speciality||!degree||!experience||!about||!fees||!address||){
+        if(!name||!email||!password||!speciality||!degree||!experience||!about||!fees||!address){
             return resizeBy.json({success:false,message:"Missing Details"})
         }
 

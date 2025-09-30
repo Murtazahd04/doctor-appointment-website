@@ -1,6 +1,6 @@
 import express from 'express'
 import { addDoctor } from '../controller/adminController.js'
-import upload from '../middlewares/multer.js'
+import upload from '../middleware/multer.js'
 
 const adminRouter =express.Router()
 
