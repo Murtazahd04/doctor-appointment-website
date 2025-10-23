@@ -81,44 +81,49 @@ const loginUser = async(req, res) => {
     }    
 }
 
-// API TO get user profile data 
-const getProfile = async(req,res)=>{
-    try {
-        const {userId} = req.userId
-        const userData = await userModel.findById(req.userId).select('-password')
+// API to get user profile data
+const getProfile = async (req, res) => {
+  try {
+    const userData = await userModel.findById(req.userId).select("-password");
+    res.json({ success: true, userData });
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
 
-        res.json({success:true,userData}
-        )
-
-    } catch (error) {
-          console.log(error);
-        res.json({success:false ,message:error.message})
-
-    }
-}
 
 // API TO UPDATE USER PROFILE
-const updateProfile = async(req,res)=>{
-    try {
-        const {userId, name , phone ,address,dob,gender } = req.body
-        const imageFile = req.file
+const updateProfile = async (req, res) => {
+  try {
+    const { userId, name, phone, address, dob, gender } = req.body;
+    const imageFile = req.file;
 
-        if (!name || !phone ||!dob || !!gender) {
-            return res.json({success:false,message:"Data Missing"})
-        }
-        
-        await userModel.findByIdAndUpdate(userId,{name,phone,address:JSON.parse(address),dob,gender})
-        if (imageFile) {
-            
-            //uploud image to cloudinary
-            const imageUploud = await cloudinary.uplouder.uploud(imageFile.path,{resource_type:'image'})
-            
-
-        }
-    } catch (error) {
-         console.log(error);
-        res.json({success:false ,message:error.message})
-
+    if (!name || !phone || !dob || !gender) {
+      return res.json({ success: false, message: "Data Missing" });
     }
-}
-export {registerUser,loginUser,getProfile}
+
+    await userModel.findByIdAndUpdate(userId, { name, phone, address: JSON.parse(address), dob, gender });
+
+    if (imageFile) {
+      try {
+        // Upload image to Cloudinary
+        const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: 'image' });
+        const imageURL = imageUpload.secure_url;
+        console.log("Cloudinary upload result:", imageUpload);
+
+        // Update user's image URL in the database
+        await userModel.findByIdAndUpdate(userId, { image: imageURL });
+
+      } catch (cloudinaryError) {
+        console.error("Cloudinary error:", cloudinaryError);
+        return res.json({ success: false, message: "Failed to upload image to Cloudinary" });
+      }
+    }
+
+    res.json({ success: true, message: "Profile Updated Successfully" });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+export {registerUser,loginUser,getProfile,updateProfile}
