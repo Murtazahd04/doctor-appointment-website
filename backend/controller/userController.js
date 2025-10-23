@@ -95,14 +95,14 @@ const getProfile = async (req, res) => {
 // API TO UPDATE USER PROFILE
 const updateProfile = async (req, res) => {
   try {
-    const { userId, name, phone, address, dob, gender } = req.body;
+    const { name, phone, address, dob, gender } = req.body;
     const imageFile = req.file;
 
     if (!name || !phone || !dob || !gender) {
       return res.json({ success: false, message: "Data Missing" });
     }
 
-    await userModel.findByIdAndUpdate(userId, { name, phone, address: JSON.parse(address), dob, gender });
+    await userModel.findByIdAndUpdate(req.userId, { name, phone, address: JSON.parse(address), dob, gender });
 
     if (imageFile) {
       try {
@@ -112,7 +112,7 @@ const updateProfile = async (req, res) => {
         console.log("Cloudinary upload result:", imageUpload);
 
         // Update user's image URL in the database
-        await userModel.findByIdAndUpdate(userId, { image: imageURL });
+        await userModel.findByIdAndUpdate(req.userId, { image: imageURL });
 
       } catch (cloudinaryError) {
         console.error("Cloudinary error:", cloudinaryError);

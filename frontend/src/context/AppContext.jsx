@@ -71,6 +71,10 @@ const AppContextProvider = (props)=>{
            }
     },[token])
 
+    useEffect(() => {
+        console.log("userData.image:", userData.image);
+    }, [userData])
+
     return (
         <AppContext.Provider value = {value}>
             {props.children}

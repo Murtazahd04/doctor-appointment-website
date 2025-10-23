@@ -9,10 +9,10 @@ const authUser = async (req, res, next) => {
     }
 
     // verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const token_decode = jwt.verify(token, process.env.JWT_SECRET);
 
     // ✅ Attach to request (safe and works for all routes)
-    req.userId = decoded.id;
+    req.userId = token_decode.id; // Set userId on req, not req.body
 
     next();
   } catch (error) {
