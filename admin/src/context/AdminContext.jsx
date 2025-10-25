@@ -8,6 +8,8 @@ const AdminContextProvider = (props)=>{
 
     const [aToken , setAToken] = useState(localStorage.getItem('aToken')?localStorage.getItem('aToken'):'')
     const [doctors,setDoctors] = useState([])
+    const [appointments,setAppointments] = useState([])
+    const [dashData,setDashdata] = useState(false)
     const backendUrl = import.meta.env.VITE_BACKEND_URL
     const getAllDoctors = async ()=>{
         try {
@@ -40,14 +42,68 @@ const AdminContextProvider = (props)=>{
             toast.error(error.message)
         }
     }
+
+
+    // Getting all appointment data from Database using API
+    const getAllAppointments = async () => {
+
+        try {
+
+            const { data } = await axios.get(backendUrl + '/api/admin/appointments', { headers: { aToken } })
+           if (data.success && Array.isArray(data.appointments)) {
+            setAppointments([...data.appointments].reverse());
+            } else {
+            setAppointments([]); // fallback
+            toast.error(data.message || 'No appointments found');
+            }
+
+
+        } catch (error) {
+            toast.error(error.message)
+            console.log(error)
+        }
+
+    }
+    const cancelAppointment = async (appointmentId) => {
+        try {
+           const {data} = await axios.post(backendUrl+'/api/admin/cancel-appointment',{appointmentId},{headers:{aToken}}) 
+           if (data.success) {
+            toast.success(data.message)
+            getAllAppointments()
+           }
+           else{
+            toast.error(data.message)
+           }
+        } catch (error) {
+             toast.error(error.message)
+        }
+        
+    }
+    const getDashData = async () => {
+        try {
+            const {data} = await axios.get(backendUrl + '/api/admin/dashboard',{headers:{aToken}})
+
+            if (data.success) {
+                setDashdata(data.dashData)
+                console.log(data.dashData)
+            }else{
+                toast.error(data.message)
+            }
+
+        } catch (error) {
+            
+          toast.error(error.message)
+        }
+    }
     const value = {
         aToken,
         setAToken,
         backendUrl,
-        doctors,getAllDoctors,changeAvailability,
+        doctors,getAllDoctors,changeAvailability,appointments,setAppointments,getAllAppointments,cancelAppointment,dashData,getDashData
     }
     return(
         <AdminContext.Provider value ={value}>
+        
             {props.children}
         </AdminContext.Provider>
     )
