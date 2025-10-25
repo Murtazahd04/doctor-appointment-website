@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
 import Dashboard from './pages/admin/Dashboard';
-import AllAppointments from './pages/admin/AllAppointments ';
+import AllAppointments from './pages/admin/AllAppointments';
 import AddDoctor from './pages/admin/AddDoctor';
 import DoctorList from './pages/admin/DoctorList';
 import Login from './pages/Login';
