@@ -16,9 +16,14 @@ connectCloudinary()
 
 // middlewares
 app.use(express.json())
-app.use(cors({
-    origin: 'https://doctorappointmentwebsitefrontend.vercel.app',
-}))
+// Configure CORS based on environment
+const corsOptions = {
+    origin: process.env.NODE_ENV === 'production'
+        ? ['https://doctorappointmentwebsitefrontend.vercel.app', 'https://doctor-appointment-website-frontend.vercel.app']
+        : '*',
+    credentials: true
+};
+app.use(cors(corsOptions))
 
 
 // api endpoint
