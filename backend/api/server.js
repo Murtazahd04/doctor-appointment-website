@@ -32,4 +32,4 @@ app.get('/',(req,res)=>{
 
 // Export the app and the server instance (ES module exports)
 export default app
-export { server }
+
