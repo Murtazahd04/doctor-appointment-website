@@ -84,10 +84,13 @@ const addDoctor = async (req, res) => {
         const salt = await bcrypt.genSalt(10); // the more no. round the more time it will take
         const hashedPassword = await bcrypt.hash(password, salt)
 
-        // upload image to cloudinary
-        const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" })
-        const imageUrl = imageUpload.secure_url
+        // Convert file buffer to a data URI
+        const b64 = Buffer.from(imageFile.buffer).toString("base64");
+        let dataURI = "data:" + imageFile.mimetype + ";base64," + b64;
 
+        // upload image to cloudinary using the data URI
+        const imageUpload = await cloudinary.uploader.upload(dataURI, { resource_type: "image" })
+        const imageUrl = imageUpload.secure_url
         const doctorData = {
             name,
             email,

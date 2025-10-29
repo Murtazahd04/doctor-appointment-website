@@ -111,8 +111,14 @@ const updateProfile = async (req, res) => {
         await userModel.findByIdAndUpdate(userId, { name, phone, address: JSON.parse(address), dob, gender });
 
         if (imageFile) {
-            const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" });
+            // START: Vercel Serverless File Upload Fix - Using Buffer
+            const b64 = Buffer.from(imageFile.buffer).toString("base64");
+            let dataURI = "data:" + imageFile.mimetype + ";base64," + b64;
+            
+            const imageUpload = await cloudinary.uploader.upload(dataURI, { resource_type: "image" });
             const imageURL = imageUpload.secure_url;
+            // END: Vercel Serverless File Upload Fix
+            
             await userModel.findByIdAndUpdate(userId, { image: imageURL });
         }
 
