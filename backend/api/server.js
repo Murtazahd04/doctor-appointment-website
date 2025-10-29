@@ -6,6 +6,7 @@ import connectCloudinary from '../config/cloudinary.js'
 import adminRouter from '../routes/adminRoute.js'
 import doctorRouter from '../routes/doctorRoute.js'
 import userRouter from '../routes/userRoute.js'
+import  serverless from 'serverless-http';
 // app config
 const app = express()
 
@@ -15,7 +16,9 @@ connectCloudinary()
 
 // middlewares
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: 'http://localhost:5173',
+}))
 
 
 // api endpoint
@@ -32,4 +35,4 @@ app.get('/',(req,res)=>{
 
 // Export the app and the server instance (ES module exports)
 export default app
-
+export const server = serverless(app);
