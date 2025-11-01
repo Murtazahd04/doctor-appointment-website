@@ -1,41 +1,69 @@
-# Doctor-Appointment-Website
-We are Making This Website for Our College Mini Project.
+````markdown
+# Installation Steps for Your Doctor Appointment Website
 
-## Installation Steps for the Doctor Appointment Website
+Follow these steps to set up your multi-module project (Frontend, Backend, and Admin Panel) locally.
 
-To set up the project on your local machine, please follow these steps:
+## 1. Clone the Repository
+Open your terminal and clone the project repository:
+```bash
+git clone <YOUR_REPOSITORY_URL>
+cd doctor-appointment-website 
+````
 
-1. **Clone the Repository:**
-   Open your terminal and run the following command to clone the repository:
-   ```bash
-   git clone https://github.com/Murtazahd04/Doctor-Appointment-Website.git
-   ```
+*(Replace `<YOUR_REPOSITORY_URL>` with the actual link to your repository.)*
 
-2. **Rename the Folder:**
-   Change the name of the cloned directory to `frontend`.
+## 2\. Install Dependencies (`npm install`)
 
-3. **Navigate to the Directory:**
-   Use the following command to navigate into the `frontend` directory:
-   ```bash
-   cd frontend
-   ```
+Navigate into each project directory and install the necessary dependencies using `npm install`.
 
-4. **Install Dependencies:**
-   Run the following command to install the necessary project dependencies:
-   ```bash
-   npm install
-   ```
+### Admin Panel
 
-5. **Install Additional Libraries:**
-   Install the extra libraries used in the project by running the following commands:
-   ```bash
-   npm install axios react-router-dom react-toastify
-   ```
+```bash
+cd admin
+npm install
+```
 
-6. **Install Tailwind CSS and Vite Plugin:**
-   Finally, install Tailwind CSS along with the Vite plugin using the following command:
-   ```bash
-   npm install tailwindcss @tailwindcss/vite
-   ```
+### Backend Server
 
-After completing these steps, you should be ready to start working on the project. If you have any questions, feel free to reach out!
+```bash
+cd ../backend
+npm install
+```
+
+### Frontend Website
+
+```bash
+cd ../frontend
+npm install
+```
+
+## 3\. Start the Development Servers
+
+You will need three separate terminal windows running concurrently to start all parts of the application.
+
+### 1\. Start the Backend API
+
+In the terminal open to the **`backend`** directory:
+
+```bash
+npm start
+```
+
+### 2\. Start the Frontend Website
+
+In a new terminal window, navigate to the **`frontend`** directory:
+
+```bash
+npm run dev
+```
+
+### 3\. Start the Admin Panel
+
+In a third terminal window, navigate to the **`admin`** directory:
+
+```bash
+npm run dev
+```
+
+```
+```
